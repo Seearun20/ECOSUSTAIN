@@ -10,37 +10,31 @@
     <header class="header">
         <div class="header-content">
             <div class="logo">EcoTrack</div>
+            <div class="verifiedGenres"></div>
             <div class="verified-badge">Verified Sustainable</div>
         </div>
     </header>
 
     <div class="container">
         <div class="product-hero">
-            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=400&fit=crop" alt="Organic Cotton T-Shirt" class="product-image">
-            <div class="product-details">
-                <h1>Organic Cotton T-Shirt</h1>
+            <img id="product-image" src="https://via.placeholder.com/150" alt="Product Image" class="product-image">
+            <div class="product-details" id="product-details">
+                <h1 id="product-name">Loading...</h1>
                 <div class="product-meta">
                     <div class="meta-item">
-                        <div class="meta-label">Brand</div>
-                        <div class="meta-value">EcoWear</div>
+                        <div class="meta-label">Category</div>
+                        <div class="meta-value" id="product-category">N/A</div>
                     </div>
                     <div class="meta-item">
                         <div class="meta-label">Product Code</div>
-                        <div class="meta-value">ECO-TS-001</div>
+                        <div class="meta-value" id="product-code">N/A</div>
                     </div>
-                    <!-- <div class="meta-item">
-                        <div class="meta-label">Expiry Date</div>
-                        <div class="meta-value">N/A (Durable Good)</div>
-                    </div> -->
                     <div class="meta-item">
-                        <div class="meta-label">Size</div>
-                        <div class="meta-value">Medium</div>
+                        <div class="meta-label">Date Added</div>
+                        <div class="meta-value" id="date-added">N/A</div>
                     </div>
                 </div>
-                <div class="sustainability-score">
-                    <div class="score-value">A+</div>
-                    <div class="score-label">Sustainability Score</div>
-                </div>
+                <div class="sustainability-score" id="sustainability-score">0/100</div>
             </div>
         </div>
 
@@ -54,38 +48,38 @@
                 </div>
                 
                 <div class="lifecycle-steps">
-                    <div class="step completed" data-step="1">
+                    <div class="step" data-step="1">
                         <div class="step-circle">🌱</div>
                         <div class="step-title">Raw Material Extraction</div>
-                        <div class="step-emissions">2.1 kg CO₂e</div>
+                        <div class="step-emissions" id="carbon-raw-material">0 kg CO₂e</div>
                         <div class="step-details">Organic cotton farming, water usage, and harvesting processes</div>
                     </div>
                     
-                    <div class="step completed" data-step="2">
+                    <div class="step" data-step="2">
                         <div class="step-circle">🏭</div>
                         <div class="step-title">Manufacturing & Processing</div>
-                        <div class="step-emissions">3.4 kg CO₂e</div>
+                        <div class="step-emissions" id="carbon-manufacturing">0 kg CO₂e</div>
                         <div class="step-details">Spinning, weaving, dyeing, and garment construction</div>
                     </div>
                     
-                    <div class="step completed" data-step="3">
+                    <div class="step" data-step="3">
                         <div class="step-circle">🚛</div>
                         <div class="step-title">Transportation & Distribution</div>
-                        <div class="step-emissions">1.2 kg CO₂e</div>
+                        <div class="step-emissions" id="carbon-transportation">0 kg CO₂e</div>
                         <div class="step-details">Shipping from factory to warehouse to retail</div>
                     </div>
                     
-                    <div class="step completed" data-step="4">
+                    <div class="step" data-step="4">
                         <div class="step-circle">👕</div>
                         <div class="step-title">Usage Phase</div>
-                        <div class="step-emissions">8.7 kg CO₂e</div>
+                        <div class="step-emissions" id="carbon-usage">0 kg CO₂e</div>
                         <div class="step-details">Washing, drying, and care over product lifetime</div>
                     </div>
                     
-                    <div class="step completed" data-step="5">
+                    <div class="step" data-step="5">
                         <div class="step-circle">♻️</div>
                         <div class="step-title">End-of-Life</div>
-                        <div class="step-emissions">0.3 kg CO₂e</div>
+                        <div class="step-emissions" id="carbon-end-of-life">0 kg CO₂e</div>
                         <div class="step-details">Recycling and disposal processes</div>
                     </div>
                 </div>
@@ -93,7 +87,7 @@
             
             <div class="total-emissions">
                 <h3>Total Carbon Footprint</h3>
-                <div class="total-value">15.7 kg CO₂e</div>
+                <div class="total-value" id="carbon-footprint">0 kg CO₂e</div>
             </div>
             
             <div class="measurement-info">
@@ -123,22 +117,20 @@
         <div class="additional-info">
             <div class="info-card">
                 <h3>♻️ Recyclability</h3>
-                <p>This product is made from 100% organic cotton and can be recycled through textile recycling programs. The natural fibers can be composted at end of life.</p>
+                <p id="recyclable">N/A</p>
+                <p id="recyclability-status">N/A</p>
             </div>
             
             <div class="info-card">
                 <h3>🤝 Ethical Sourcing</h3>
-                <p>Sourced from certified organic farms with fair trade practices. Workers receive fair wages and safe working conditions throughout the supply chain.</p>
-            </div>
-            
-            <div class="info-card">
-                <h3>🌿 Environmental Impact</h3>
-                <p>Uses 91% less water than conventional cotton. No harmful pesticides or chemicals used in production. Biodegradable and compostable.</p>
+                <p id="ethical-sourcing">N/A</p>
             </div>
             
             <div class="info-card">
                 <h3>📊 Certifications</h3>
-                <p>GOTS Certified, OEKO-TEX Standard 100, Fair Trade Certified, and Carbon Neutral Shipping.</p>
+                <ul id="certifications">
+                    <li>No certifications available</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -155,6 +147,6 @@
         </div>
     </footer>
 
-   <script src="../scripts/product.js"></script> 
+    <script src="../scripts/product.js"></script>
 </body>
 </html>
