@@ -58,7 +58,7 @@ function generateProductCode(category) {
 }
 
 function generateQRCode(productCode) {
-  const targetUrl = `https://ecosustain.onrender.com/product.html?code=${encodeURIComponent(productCode)}`;
+  const targetUrl = `https://ecosustain.onrender.com/product?code=${encodeURIComponent(productCode)}`;
   return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(targetUrl)}`;
 }
 
