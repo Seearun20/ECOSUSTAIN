@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoTrack - Product Sustainability Information</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2d5a27;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo::before {
+            content: "🌱";
+            font-size: 2rem;
+        }
+        
+        .verified-badge {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .verified-badge::before {
+            content: "✓";
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .product-hero {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .product-image {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+        
+        .product-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .product-details h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2d5a27;
+            font-weight: 700;
+        }
+        
+        .product-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .meta-item {
+            background: rgba(45, 90, 39, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .meta-label {
+            font-weight: 600;
+            color: #2d5a27;
+            margin-bottom: 0.5rem;
+        }
+        
+        .meta-value {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .sustainability-score {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .score-value {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .score-label {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section h2 {
+            color: #2d5a27;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .lifecycle-container {
+            position: relative;
+            margin: 2rem 0;
+        }
+        
+        .lifecycle-progress {
+            position: relative;
+            height: 4px;
+            background: rgba(76, 175, 80, 0.2);
+            border-radius: 2px;
+            margin: 2rem 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 1s ease;
+        }
+        
+        .lifecycle-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 1rem;
+        }
+        
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 0 0.5rem;
+        }
+        
+        .step.active {
+            background: rgba(76, 175, 80, 0.1);
+            transform: translateY(-5px);
+        }
+        
+        .step-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(76, 175, 80, 0.2);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step.completed .step-circle {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+        }
+        
+        .step-circle::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(76, 175, 80, 0.1);
+            z-index: -1;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active .step-circle::before {
+            background: rgba(76, 175, 80, 0.2);
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+        
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2d5a27;
+        }
+        
+        .step-emissions {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .step-details {
+            font-size: 0.9rem;
+            color: #666;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active .step-details {
+            opacity: 1;
+            max-height: 100px;
+        }
+        
+        .total-emissions {
+            background: linear-gradient(135deg, #ff6b6b, #ff5252);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .total-emissions h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .total-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        
+        .measurement-info {
+            background: rgba(103, 126, 234, 0.1);
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+        
+        .measurement-info h4 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .measurement-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .measurement-step {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .measurement-step h5 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .additional-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .info-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .info-card h3 {
+            color: #2d5a27;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .footer {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem 0;
+            margin-top: 3rem;
+            text-align: center;
+            border-top: 1px solid rgba(45, 90, 39, 0.1);
+        }
+        
+        .footer p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: #4CAF50;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #2d5a27;
+        }
+        
+        @media (max-width: 768px) {
+            .product-hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .product-details h1 {
+                font-size: 2rem;
+            }
+            
+            .lifecycle-steps {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .step {
+                margin: 0;
+            }
+            
+            .lifecycle-progress {
+                display: none;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">EcoTrack</div>
+            <div class="verified-badge">Verified Sustainable</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="product-hero">
+            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=400&fit=crop" alt="Organic Cotton T-Shirt" class="product-image">
+            <div class="product-details">
+                <h1>Organic Cotton T-Shirt</h1>
+                <div class="product-meta">
+                    <div class="meta-item">
+                        <div class="meta-label">Brand</div>
+                        <div class="meta-value">EcoWear</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Product Code</div>
+                        <div class="meta-value">ECO-TS-001</div>
+                    </div>
+                    <!-- <div class="meta-item">
+                        <div class="meta-label">Expiry Date</div>
+                        <div class="meta-value">N/A (Durable Good)</div>
+                    </div> -->
+                    <div class="meta-item">
+                        <div class="meta-label">Size</div>
+                        <div class="meta-value">Medium</div>
+                    </div>
+                </div>
+                <div class="sustainability-score">
+                    <div class="score-value">A+</div>
+                    <div class="score-label">Sustainability Score</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🌍 Carbon Footprint Analysis</h2>
+            <p>The carbon footprint of a product is measured by calculating the total greenhouse gas (GHG) emissions associated with each stage of its lifecycle, typically expressed in carbon dioxide equivalents (CO₂e). This process is called a Life Cycle Assessment (LCA).</p>
+            
+            <div class="lifecycle-container">
+                <div class="lifecycle-progress">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                
+                <div class="lifecycle-steps">
+                    <div class="step completed" data-step="1">
+                        <div class="step-circle">🌱</div>
+                        <div class="step-title">Raw Material Extraction</div>
+                        <div class="step-emissions">2.1 kg CO₂e</div>
+                        <div class="step-details">Organic cotton farming, water usage, and harvesting processes</div>
+                    </div>
+                    
+                    <div class="step completed" data-step="2">
+                        <div class="step-circle">🏭</div>
+                        <div class="step-title">Manufacturing & Processing</div>
+                        <div class="step-emissions">3.4 kg CO₂e</div>
+                        <div class="step-details">Spinning, weaving, dyeing, and garment construction</div>
+                    </div>
+                    
+                    <div class="step completed" data-step="3">
+                        <div class="step-circle">🚛</div>
+                        <div class="step-title">Transportation & Distribution</div>
+                        <div class="step-emissions">1.2 kg CO₂e</div>
+                        <div class="step-details">Shipping from factory to warehouse to retail</div>
+                    </div>
+                    
+                    <div class="step completed" data-step="4">
+                        <div class="step-circle">👕</div>
+                        <div class="step-title">Usage Phase</div>
+                        <div class="step-emissions">8.7 kg CO₂e</div>
+                        <div class="step-details">Washing, drying, and care over product lifetime</div>
+                    </div>
+                    
+                    <div class="step completed" data-step="5">
+                        <div class="step-circle">♻️</div>
+                        <div class="step-title">End-of-Life</div>
+                        <div class="step-emissions">0.3 kg CO₂e</div>
+                        <div class="step-details">Recycling and disposal processes</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="total-emissions">
+                <h3>Total Carbon Footprint</h3>
+                <div class="total-value">15.7 kg CO₂e</div>
+            </div>
+            
+            <div class="measurement-info">
+                <h4>🧮 How It's Measured:</h4>
+                <div class="measurement-steps">
+                    <div class="measurement-step">
+                        <h5>1. Data Collection</h5>
+                        <ul>
+                            <li>Quantity and type of materials used</li>
+                            <li>Energy consumption at each stage</li>
+                            <li>Transport distances and modes</li>
+                            <li>Waste and emissions generated</li>
+                        </ul>
+                    </div>
+                    <div class="measurement-step">
+                        <h5>2. Emission Factors</h5>
+                        <p>Every material, fuel, and process has a known emission factor (e.g., 1 liter of diesel ≈ 2.68 kg CO₂e)</p>
+                    </div>
+                    <div class="measurement-step">
+                        <h5>3. Calculation</h5>
+                        <p>Multiply activity data (like energy used, km traveled) by relevant emission factors. Sum all emissions across the lifecycle = Total Product Carbon Footprint</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="additional-info">
+            <div class="info-card">
+                <h3>♻️ Recyclability</h3>
+                <p>This product is made from 100% organic cotton and can be recycled through textile recycling programs. The natural fibers can be composted at end of life.</p>
+            </div>
+            
+            <div class="info-card">
+                <h3>🤝 Ethical Sourcing</h3>
+                <p>Sourced from certified organic farms with fair trade practices. Workers receive fair wages and safe working conditions throughout the supply chain.</p>
+            </div>
+            
+            <div class="info-card">
+                <h3>🌿 Environmental Impact</h3>
+                <p>Uses 91% less water than conventional cotton. No harmful pesticides or chemicals used in production. Biodegradable and compostable.</p>
+            </div>
+            
+            <div class="info-card">
+                <h3>📊 Certifications</h3>
+                <p>GOTS Certified, OEKO-TEX Standard 100, Fair Trade Certified, and Carbon Neutral Shipping.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Scanned on: <span id="scanDate"></span></p>
+            <div class="footer-links">
+                <a href="#">Learn More About Sustainability</a>
+                <a href="#">View Full LCA Report</a>
+                <a href="#">Contact EcoTrack</a>
+                <a href="#">Report Issues</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set current date
+        document.getElementById('scanDate').textContent = new Date().toLocaleDateString();
+        
+        // Animate progress bar
+        setTimeout(() => {
+            document.getElementById('progressFill').style.width = '100%';
+        }, 500);
+        
+        // Interactive steps
+        const steps = document.querySelectorAll('.step');
+        let currentStep = 0;
+        
+        function showStep(stepIndex) {
+            steps.forEach((step, index) => {
+                step.classList.remove('active');
+                if (index === stepIndex) {
+                    step.classList.add('active');
+                }
+            });
+        }
+        
+        // Auto-cycle through steps
+        setInterval(() => {
+            showStep(currentStep);
+            currentStep = (currentStep + 1) % steps.length;
+        }, 3000);
+        
+        // Click interaction
+        steps.forEach((step, index) => {
+            step.addEventListener('click', () => {
+                currentStep = index;
+                showStep(currentStep);
+            });
+        });
+        
+        // Add pulse animation to sustainability score
+        const score = document.querySelector('.sustainability-score');
+        score.classList.add('pulse');
+        
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe sections for scroll animations
+        document.querySelectorAll('.section, .info-card').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
