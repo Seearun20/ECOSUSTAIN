@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    
-    "start":"node app.js"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +20,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "express-session": "^1.18.1",
     "mongoose": "^8.16.3"
   }
 }
