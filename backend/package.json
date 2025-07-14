@@ -1,0 +1,25 @@
+{
+  "name": "ecosustain",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Seearun20/ECOSUSTAIN.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Seearun20/ECOSUSTAIN/issues"
+  },
+  "homepage": "https://github.com/Seearun20/ECOSUSTAIN#readme",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mongoose": "^8.16.3"
+  }
+}
