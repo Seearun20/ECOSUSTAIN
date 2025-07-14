@@ -1,4 +1,4 @@
-// ✅ app.js
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -9,22 +9,24 @@ const Product = require('./models/Product');
 
 const app = express();
 
-// ✅ Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/productdb', {
+// Connect to MongoDB using environment variable
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
   .then(() => console.log('✅ MongoDB connected'))
   .catch(err => console.error('❌ MongoDB connection error:', err));
 
-// ✅ Middleware
+// ... rest of your app.js code remains unchanged ...
+
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// ✅ Serve frontend static files
+// Serve frontend static files
 app.use(express.static(path.join(__dirname, '../frontend')));
 
-// ✅ Routes to serve pages
+// Routes to serve pages
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/pages/Admin.html'));
 });
@@ -33,7 +35,7 @@ app.get('/product', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/pages/product.html'));
 });
 
-// ✅ API: Get all products
+// API: Get all products
 app.get('/api/products', async (req, res) => {
   try {
     const products = await Product.find();
@@ -44,7 +46,7 @@ app.get('/api/products', async (req, res) => {
   }
 });
 
-// ✅ API: Add new product
+// API: Add new product
 app.post('/api/products', async (req, res) => {
   console.log('POST /api/products called with:', req.body);
   try {
@@ -68,10 +70,13 @@ app.post('/api/products', async (req, res) => {
   }
 });
 
-// ✅ API: Update product
+// API: Update product
 app.put('/api/products/:id', async (req, res) => {
   try {
     const updated = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updated) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
     res.json(updated);
   } catch (err) {
     console.error(err);
@@ -79,10 +84,13 @@ app.put('/api/products/:id', async (req, res) => {
   }
 });
 
-// ✅ API: Delete product
+// API: Delete product
 app.delete('/api/products/:id', async (req, res) => {
   try {
-    await Product.findByIdAndDelete(req.params.id);
+    const deleted = await Product.findByIdAndDelete(req.params.id);
+    if (!deleted) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
     res.json({ message: 'Product deleted' });
   } catch (err) {
     console.error(err);
@@ -90,7 +98,7 @@ app.delete('/api/products/:id', async (req, res) => {
   }
 });
 
-// ✅ API: Get product by productCode
+// API: Get product by productCode
 app.get('/api/products/code/:code', async (req, res) => {
   try {
     const product = await Product.findOne({ productCode: req.params.code });
@@ -104,7 +112,7 @@ app.get('/api/products/code/:code', async (req, res) => {
   }
 });
 
-// ✅ Start server
+// Start server
 app.listen(3000, () => {
   console.log('🚀 Server running at http://localhost:3000');
 });
