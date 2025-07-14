@@ -1,0 +1,36 @@
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 50;
+      display: none;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-content {
+      background: white;
+      border-radius: 0.5rem;
+      width: 100%;
+      max-width: 32rem;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .product-modal-content {
+      max-width: 48rem;
+    }
+    .sustainability-badge {
+      display: inline-flex;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 9999px;
+    }
+    .table-container {
+      overflow-x: auto;
+    }
